@@ -96,9 +96,14 @@ input:disabled {
 .site-shell {
   width: min(100%, 1600px);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
   border-inline: 1px solid rgb(47 69 99 / 60%);
   background: rgb(7 16 31 / 72%);
+}
+#main-content {
+  flex: 1 0 auto;
 }
 .site-header {
   position: sticky;
@@ -170,7 +175,11 @@ input:disabled {
   background: rgb(101 169 255 / 9%);
 }
 .site-footer {
+  box-sizing: border-box;
   display: flex;
+  flex: none;
+  min-height: 3.67rem;
+  align-items: center;
   justify-content: space-between;
   gap: 1rem;
   padding: 1.4rem;
