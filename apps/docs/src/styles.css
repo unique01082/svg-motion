@@ -820,6 +820,7 @@ th {
 }
 .field {
   display: grid;
+  align-content: start;
   gap: 0.35rem;
   color: var(--muted);
   font-size: 0.7rem;
@@ -830,6 +831,16 @@ th {
 .field textarea {
   width: 100%;
   padding: 0.5rem;
+}
+.field-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.field input[type="range"] {
+  min-height: 42px;
+  margin: 0;
+  padding: 0;
 }
 .field textarea {
   min-height: 140px;
