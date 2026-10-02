@@ -395,11 +395,13 @@ export function PlaygroundPage() {
               </select>
             </label>
             <label className="field">
-              Duration (ms)
+              Duration (ms) <span>{duration}</span>
               <input
                 aria-label="Duration (ms)"
-                type="number"
+                type="range"
                 min="0"
+                max="10000"
+                step="10"
                 value={duration}
                 onChange={(event) => {
                   setDuration(Number(event.currentTarget.value));
