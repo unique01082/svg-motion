@@ -820,6 +820,7 @@ th {
 }
 .field {
   display: grid;
+  align-content: start;
   gap: 0.35rem;
   color: var(--muted);
   font-size: 0.7rem;
