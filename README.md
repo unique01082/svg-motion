@@ -185,3 +185,15 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for the development workflow and [CHANG
 ## License
 
 [MIT](./LICENSE)
+
+## Automated comment filter
+
+`scripts/is-automated-comment.mjs` tells a dispatcher whether a PR comment is bot
+output (a `### Screenshots ·` preview comment or a preview-bot author) that must not
+start an agent run. Exit 0 = automated (ignore), 1 = human (dispatch), 2 = bad input:
+
+```bash
+node scripts/is-automated-comment.mjs --body "$BODY" --author "$LOGIN"
+```
+
+Extra bot logins: `AUTOMATED_COMMENT_AUTHORS="bot-a,bot-b"`.
