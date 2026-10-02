@@ -832,6 +832,16 @@ th {
   width: 100%;
   padding: 0.5rem;
 }
+.field-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.field input[type="range"] {
+  min-height: 42px;
+  margin: 0;
+  padding: 0;
+}
 .field textarea {
   min-height: 140px;
   resize: vertical;

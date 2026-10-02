@@ -395,7 +395,9 @@ export function PlaygroundPage() {
               </select>
             </label>
             <label className="field">
-              Duration (ms) <span>{duration}</span>
+              <span className="field-head">
+                Duration (ms) <span>{duration}</span>
+              </span>
               <input
                 aria-label="Duration (ms)"
                 type="range"
@@ -459,7 +461,9 @@ export function PlaygroundPage() {
             </label>
           </div>
           <label className="field">
-            Seek <output>{progress}%</output>
+            <span className="field-head">
+              Seek <output>{progress}%</output>
+            </span>
             <input
               aria-label="Progress"
               type="range"
