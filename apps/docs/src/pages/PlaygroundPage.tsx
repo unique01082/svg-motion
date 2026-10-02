@@ -21,6 +21,18 @@ const presets: readonly Preset[] = [
   "pulse",
 ];
 
+const easings: readonly { value: string; label: string }[] = [
+  { value: "linear", label: "Linear" },
+  { value: "ease", label: "Ease" },
+  { value: "ease-in", label: "Ease in" },
+  { value: "ease-out", label: "Ease out" },
+  { value: "ease-in-out", label: "Ease in-out" },
+  { value: "cubic-bezier(0.4, 0, 0.2, 1)", label: "Standard" },
+  { value: "cubic-bezier(0.34, 1.56, 0.64, 1)", label: "Back out" },
+  { value: "cubic-bezier(0.68, -0.55, 0.27, 1.55)", label: "Back in-out" },
+  { value: "steps(4, end)", label: "Steps (4)" },
+];
+
 function safeError(error: unknown): string {
   if (
     typeof error === "object" &&
@@ -397,14 +409,20 @@ export function PlaygroundPage() {
             </label>
             <label className="field">
               Easing
-              <input
+              <select
                 aria-label="Easing"
                 value={easing}
                 onChange={(event) => {
                   setEasing(event.currentTarget.value);
                   remount();
                 }}
-              />
+              >
+                {easings.map(({ value, label }) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </select>
             </label>
             <label className="field">
               Stagger
