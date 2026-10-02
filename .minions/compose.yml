@@ -1,0 +1,18 @@
+# Test environment for Minions (Products → Test environment).
+# Preview: web:80 / · Test login: none (public docs/playground).
+# No environment variables, secrets, database, or seed step required.
+# Uses the docs app's pinned npm release; library source checks use
+# pnpm docs:candidate:verify separately.
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    expose:
+      - "80"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/healthz"]
+      interval: 5s
+      timeout: 3s
+      start_period: 5s
+      retries: 12
