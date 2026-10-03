@@ -65,22 +65,35 @@ export function HomePage() {
     },
     [],
   );
+  const [capSlugs, setCapSlugs] = useState<readonly string[]>([
+    "cld-cloud-network-folder",
+    "com-laptop-code",
+    "gen-heart-rate",
+  ]);
+  useEffect(() => {
+    const pool = specimens.map((s) => s.slug);
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j]!, pool[i]!];
+    }
+    setCapSlugs(pool.slice(0, 3));
+  }, []);
   const capabilities = [
     {
-      specimen: specimenBySlug("cld-cloud-network-folder"),
+      specimen: specimenBySlug(capSlugs[0]!),
       preset: "draw" as const,
       title: "Prepare",
       description:
         "Validate, sanitize and namespace before a source reaches the page.",
     },
     {
-      specimen: specimenBySlug("com-laptop-code"),
+      specimen: specimenBySlug(capSlugs[1]!),
       preset: "stagger" as const,
       title: "Compose",
       description: "Five presets cover line work, leaves and compositions.",
     },
     {
-      specimen: specimenBySlug("gen-heart-rate"),
+      specimen: specimenBySlug(capSlugs[2]!),
       preset: "pulse" as const,
       title: "Control",
       description:
@@ -152,7 +165,7 @@ export function HomePage() {
       </section>
       <section className="capability-strip" aria-label="Library capabilities">
         {capabilities.map(({ specimen, preset, title, description }) => (
-          <article key={title}>
+          <article key={`${title}-${specimen.slug}`}>
             <MotionPreview
               className="capability-icon"
               source={specimen.source}
