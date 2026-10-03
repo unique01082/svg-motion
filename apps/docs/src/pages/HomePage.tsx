@@ -1,7 +1,34 @@
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { MotionPreview } from "../components/MotionPreview";
-import { specimenBySlug } from "../specimens/specimens";
+import { specimenBySlug, specimens } from "../specimens/specimens";
 import { usePageMeta } from "../hooks/usePageMeta";
+
+const HERO_PRESETS = ["draw", "fade", "scale", "stagger", "pulse"] as const;
+type HeroPreset = (typeof HERO_PRESETS)[number];
+interface HeroPick {
+  readonly slug: string;
+  readonly preset: HeroPreset;
+  readonly duration: number;
+  readonly n: number;
+}
+
+function pickRandom<T>(items: readonly T[], not?: T): T {
+  const pool = items.length > 1 ? items.filter((i) => i !== not) : items;
+  return pool[Math.floor(Math.random() * pool.length)]!;
+}
+
+function nextHero(prev: HeroPick): HeroPick {
+  return {
+    slug: pickRandom(
+      specimens.map((s) => s.slug),
+      prev.slug,
+    ),
+    preset: pickRandom(HERO_PRESETS, prev.preset),
+    duration: 1200 + Math.floor(Math.random() * 12) * 100,
+    n: prev.n + 1,
+  };
+}
 
 export function HomePage() {
   usePageMeta({
@@ -10,7 +37,34 @@ export function HomePage() {
       "Animate any SVG with a safe, framework-agnostic TypeScript library.",
     canonicalPath: "/",
   });
-  const hero = specimenBySlug("des-wand-2");
+  // Deterministic first pick keeps prerendered HTML and hydration identical.
+  const [pick, setPick] = useState<HeroPick>({
+    slug: "des-wand-2",
+    preset: "draw",
+    duration: 1700,
+    n: 1,
+  });
+  const hero = specimenBySlug(pick.slug);
+  const advance = useCallback(() => setPick(nextHero), []);
+  useEffect(() => {
+    advance();
+  }, [advance]);
+  const reduced =
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const onHeroFinish = useCallback(() => {
+    if (reduced) return;
+    const t = window.setTimeout(advance, 900);
+    heroTimer.current = t;
+  }, [advance, reduced]);
+  const heroTimer = useRef<number | null>(null);
+  useEffect(
+    () => () => {
+      if (heroTimer.current !== null) window.clearTimeout(heroTimer.current);
+    },
+    [],
+  );
   const capabilities = [
     {
       specimen: specimenBySlug("cld-cloud-network-folder"),
@@ -77,20 +131,22 @@ export function HomePage() {
         </div>
         <div className="hero-instrument">
           <header>
-            <span>SPECIMEN / DES WAND 2</span>
-            <strong>DRAW</strong>
+            <span>SPECIMEN / {hero.label.toUpperCase()}</span>
+            <strong>{pick.preset.toUpperCase()}</strong>
           </header>
           <MotionPreview
+            key={pick.n}
             source={hero.source}
             label={hero.label}
-            preset="draw"
-            duration={1700}
+            preset={pick.preset}
+            duration={pick.duration}
             autoplay
+            onFinish={onHeroFinish}
           />
           <footer>
-            <span>01</span>
+            <span>{String(pick.n).padStart(2, "0")}</span>
             <span>SVGGeometryElement</span>
-            <span>1700ms</span>
+            <span>{pick.duration}ms</span>
           </footer>
         </div>
       </section>
