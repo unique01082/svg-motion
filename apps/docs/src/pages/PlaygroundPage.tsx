@@ -1,5 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import {
+  Ban,
+  CircleCheck,
+  Code,
+  FileUp,
+  Link,
+  Pause,
+  Play,
+  RotateCcw,
+  Rewind,
+  Shapes,
+} from "lucide-react";
 import type {
   SvgDiagnostic,
   SvgMotionController,
@@ -20,6 +32,21 @@ const presets: readonly Preset[] = [
   "stagger",
   "pulse",
 ];
+
+const transportIcons = {
+  Play,
+  Pause,
+  Reverse: Rewind,
+  Restart: RotateCcw,
+  Finish: CircleCheck,
+  Cancel: Ban,
+} as const;
+const sourceIcons = {
+  specimen: Shapes,
+  markup: Code,
+  url: Link,
+  file: FileUp,
+} as const;
 
 const easings: readonly { value: string; label: string }[] = [
   { value: "linear", label: "Linear" },
@@ -332,6 +359,10 @@ export function PlaygroundPage() {
                   checked={sourceMode === mode}
                   onChange={() => setSourceMode(mode)}
                 />
+                {(() => {
+                  const Icon = sourceIcons[mode];
+                  return <Icon size={16} aria-hidden="true" />;
+                })()}
                 {mode}
               </label>
             ))}
@@ -507,6 +538,10 @@ export function PlaygroundPage() {
                   })
                 }
               >
+                {(() => {
+                  const Icon = transportIcons[action];
+                  return <Icon size={16} aria-hidden="true" />;
+                })()}
                 {action}
               </button>
             ))}

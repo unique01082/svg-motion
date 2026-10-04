@@ -1092,3 +1092,15 @@ th {
     transition-duration: 0.01ms !important;
   }
 }
+.transport button,
+.source-mode label {
+  align-items: center;
+  gap: 0.45rem;
+}
+.transport button {
+  display: inline-flex;
+  justify-content: center;
+}
+.source-mode label {
+  display: flex;
+}
