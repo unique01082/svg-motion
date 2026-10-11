@@ -149,7 +149,7 @@ input:disabled {
   place-items: center;
   color: var(--orange);
 }
-.brand-mark svg {
+.brand-mark img {
   width: 100%;
 }
 .site-header nav {

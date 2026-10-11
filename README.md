@@ -1,5 +1,7 @@
 # @baolq/svg-motion
 
+![SVG Motion brand](docs/brand/logo.svg)
+
 [![CI](https://github.com/unique01082/svg-motion/actions/workflows/ci.yml/badge.svg)](https://github.com/unique01082/svg-motion/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/@baolq/svg-motion)](https://www.npmjs.com/package/@baolq/svg-motion)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
