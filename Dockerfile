@@ -7,7 +7,7 @@ RUN pnpm --dir apps/docs install --frozen-lockfile
 COPY apps/docs ./apps/docs
 RUN pnpm --dir apps/docs build
 
-FROM nginx:stable-alpine AS runtime
+FROM nginx:1.30.7-alpine AS runtime
 COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /repo/apps/docs/dist /usr/share/nginx/html
 EXPOSE 80
